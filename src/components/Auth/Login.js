@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 
 const Login = props => {
+  const [login, setLogin] = useState(true);
   return (
     <div>
-      <h2 className="mv3">Create Account</h2>
+      <h2 className="mv3">{login ? 'Login' : 'Create Account'}</h2>
       <form className="flex flex-column">
-        <input 
+        {!login && <input 
           type="text"
           placeholder="name"
           autoComplete="off"
-        />
+        />}
         <input 
           type="email"
           placeholder="email"
@@ -25,8 +26,11 @@ const Login = props => {
             className="button pointer mv2"
 
           >Submit</button>
-          <button type="button" className="pointer button">
-            Already have an account?
+          <button type="button" className="pointer button"
+            onClick={() => setLogin(prevLogin => !prevLogin)}
+          >
+            {login ? "need to create an account" 
+                   : "Already have an account?"}
           </button>
         </div>
       </form>
