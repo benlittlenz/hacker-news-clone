@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useFormValidation from './useFormValidation'
+import validateLogin from './validateLogin';
 
 const INITIAL_STATE = {
   name: '',
@@ -8,7 +9,18 @@ const INITIAL_STATE = {
 }
 
 const Login = props => {
-  const { handleChange, handleSubmit, values } = useFormValidation(INITIAL_STATE);
+  const { 
+    handleChange, 
+    handleSubmit, 
+    values,
+    handleBlur,
+    errors,
+    isSubmitting
+  } = useFormValidation(
+    INITIAL_STATE,
+    validateLogin
+  );
+
   const [login, setLogin] = useState(true);
   return (
     <div>
@@ -28,6 +40,7 @@ const Login = props => {
         <input 
           onChange={handleChange}
           value={values.email}
+          onBlur={handleBlur}
           type="email"
           name="email"
           placeholder="email"
