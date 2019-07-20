@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const useFormValidation = (initialState, validate) => {
     const [values, setValues] = useState(initialState);
     const [errors, setErrors] = useState({});
-    cons [isSubmitting, setSubmitting] = useState(false);
+    const [isSubmitting, setSubmitting] = useState(false);
 
     useEffect(() => {
         if(isSubmitting) {
@@ -15,7 +15,7 @@ const useFormValidation = (initialState, validate) => {
                 setSubmitting(false);
             }
         }
-    }, [errors])
+    }, [errors, isSubmitting, values])
     
     const handleChange = event => {
         event.persist();
@@ -27,6 +27,7 @@ const useFormValidation = (initialState, validate) => {
 
     const handleBlur = () => {
         const validationErrors = validate(values);
+        setErrors(validationErrors);
     }
     
     const handleSubmit = event => {

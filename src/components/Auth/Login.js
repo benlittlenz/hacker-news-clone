@@ -39,22 +39,30 @@ const Login = props => {
           />)}
         <input 
           onChange={handleChange}
+          onBlur={handleBlur}
           value={values.email}
           onBlur={handleBlur}
+          className={errors.email && 'error-input' }
           type="email"
           name="email"
           placeholder="email"
           autoComplete="off"
         />
+        {errors.email && <p className='error-text'>{errors.email}</p>}
         <input 
           onChange={handleChange}
+          onBlur={handleBlur}
           value={values.password}
+          className={errors.password && 'error-input' }
           type="password"
           name="password"
           placeholder="password"
         />
+        {errors.password && <p className='error-text'>{errors.password}</p>}
         <div className="flex mv3">
           <button
+            disabled={isSubmitting}
+            style={{background: isSubmitting ? 'gray' : 'orange'}}
             type="button"
             className="button pointer mv2"
             onClick={handleSubmit}
