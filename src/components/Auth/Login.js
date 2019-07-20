@@ -24,13 +24,18 @@ const Login = props => {
   );
 
   const [login, setLogin] = useState(true);
+  const [firebaseErr, setFirebaseErr] = useState(null);
 
   async function authenticateUser() {
     const { name, email, password } = values
-    const response = login 
+    try {
+      const response = login 
       ? await firebase.login(email, password)
       : await firebase.register(name, email, password)
-    console.log(response)
+    } catch(err) {
+      console.error(err)
+      setFirebaseErr(err.message);
+    }
   }
 
   return (
@@ -70,6 +75,7 @@ const Login = props => {
           placeholder="password"
         />
         {errors.password && <p className='error-text'>{errors.password}</p>}
+        {firebaseErr && <p className="error-text">{firebaseErr}</p>}
         <div className="flex mv3">
           <button
             disabled={isSubmitting}
