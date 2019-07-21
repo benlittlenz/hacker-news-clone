@@ -1,21 +1,24 @@
 import React, { useState, useContext } from "react";
-import FirebaseContext from '../../firebase';
+import FirebaseContext from '../../firebase/context';
 
 const ForgotPassword = () => {
   const [resetPasswordEmail, setResetPasswordEmail] = useState('');
   const [hasPasswordReset, setHasPasswordReset] = useState(false);
   const [passwordResetError, setPasswordResetError] = useState(null);
 
-  const { firebase } = useContext(FirebaseContext);
+  // const { firebase } = useContext(FirebaseContext)
+  console.log(FirebaseContext)
 
   async function handleResetPassword() {
     try {
-      await firebase.resetPassword(resetPasswordEmail)
-      setHasPasswordReset(true);
+      console.log(resetPasswordEmail)
+      // await firebase.resetPassword(resetPasswordEmail)
+      // setHasPasswordReset(true);
+      // setPasswordResetError(null);
     } catch(err) {
       console.log("Error sending email:", err);
-      setPasswordResetError(err.message);
-      setHasPasswordReset(false);
+      // setPasswordResetError(err.message);
+      // setHasPasswordReset(false);
     }
   }
   return (

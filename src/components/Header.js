@@ -3,7 +3,7 @@ import { withRouter, NavLink } from 'react-router-dom';
 import { FirebaseContext } from '../firebase';
 
 const Header = () => {
-  const { user, firebase} = useContext(FirebaseContext)
+  const { user, firebase } = useContext(FirebaseContext);
   return (
     <div className="header">
       <div className="flex">
