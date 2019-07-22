@@ -1,11 +1,35 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
+import React, { useContext } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
+import FirebaseContext from '../../firebase/context';
 
-const LinkItem = ({ link, index, showCount }) => {
+const LinkItem = ({ link, index, showCount, history }) => {
+    const { firebase, user } = useContext(FirebaseContext);
 
     function getDomain(url) {
         return url.replace(/^https?:\/\//i, "");
+    }
+
+    function handleVote() {
+        console.log('clicked')
+        if(!user) {
+            history.push('/login')
+        } else {
+            const voteRef = firebase.db.collection('links').doc(link.id);
+            voteRef.get().then(doc => {
+                if(doc.exists) {
+                    const prevVotes = doc.data().votes;
+                    const vote = {
+                        votedBy: {
+                            id: user.uid,
+                            name: user.displayName
+                        }
+                    }
+                    const updatedVotes = [...prevVotes, ...vote]
+                    voteRef.update({ votes: updatedVotes })
+                }
+            })
+        }
     }
 
     return (
@@ -14,7 +38,11 @@ const LinkItem = ({ link, index, showCount }) => {
                 { showCount && (
                     <span className="gray">{index}.</span>
                 )}
-                <div className="vote-button">+</div>
+                <div 
+                    style={{fontSize: '20px', color: 'green', cursor: 'pointer'}}
+                    className="vote-button"
+                    onClick={handleVote}    
+                >+</div>
             </div>
             <div className="ml1">
                 <div>
@@ -36,4 +64,4 @@ const LinkItem = ({ link, index, showCount }) => {
 
 }
 
-export default LinkItem;
+export default withRouter(LinkItem);
