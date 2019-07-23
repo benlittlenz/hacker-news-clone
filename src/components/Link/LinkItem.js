@@ -25,7 +25,7 @@ const LinkItem = ({ link, index, showCount, history }) => {
                             name: user.displayName
                         }
                     }
-                    const updatedVotes = [...prevVotes, ...vote]
+                    const updatedVotes = [...prevVotes, vote]
                     voteRef.update({ votes: updatedVotes })
                 }
             })
